@@ -55,6 +55,8 @@ curl --location --request POST 'http://localhost:8080/api/v1/images/conversions/
 ## Assumptions
 - The API accepts a url pointing at an image to be converted, (as opposed to form data).
 - The asynchronous endpoint publishes its result to a fictional integration point - this could be a queue, webhook or other event streaming service that the API client is subscribed to.
+- Assuming 'Consider how your solution will be tested and whether that testing could be automated' is for discussion at interview.
+- Assuming 'Consider how your solution will be deployed. Can this be automated and to what degree?' is for discussion at interview.
 
 ## Improvements
 The following improvements could be made to bring this app closer to a production state.
@@ -67,7 +69,3 @@ The following improvements could be made to bring this app closer to a productio
 - Add OpenAPI/Swagger annotations to describe the API + add Swagger UI or similar.
 - Separate Unit test from integration tests so that they can be run separately in CI pipeline.
 - Add error messages to failed API responses.
-
-## Testing Considerations
-• Consider how your solution will be tested and whether that testing could be automated.
-• Consider how your solution will be deployed. Can this be automated and to what degree?

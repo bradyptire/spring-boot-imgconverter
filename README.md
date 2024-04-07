@@ -22,9 +22,10 @@ The application has been implemented on Springboot 3, Gradle 8.7 and tested on A
 - The asynchronous endpoint publishes its result to a fictional integration point - this could be a queue, webhook or other event streaming service that the API client is subscribed to.
 
 ## Improvements
+The following improvements could be made to bring this app closer to a production state.
 - Add support for multipart form input in addition to image URL.
 - Implement file size limt.
-- Implement a proper data store
+- Implement a proper data store.
 - Implement support for asynchronous processing notification via queue, webhook etc..
 - Add support for more image formats.
 - Refactor to extract static references to javax.imageio.ImageIO so that mocks can be injected to facilitate more test scenarios.

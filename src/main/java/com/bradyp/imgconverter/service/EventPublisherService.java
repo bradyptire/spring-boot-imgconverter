@@ -1,5 +1,7 @@
 package com.bradyp.imgconverter.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.bradyp.imgconverter.service.model.ImageConversionResult;
@@ -9,11 +11,13 @@ import com.bradyp.imgconverter.service.model.ImageConversionResult;
  */
 @Service
 public class EventPublisherService {
+	private Logger logger = LoggerFactory.getLogger(EventPublisherService.class);
+
 	public void publish(ImageConversionResult result) {
 		if (result.isSuccess()) {
-			System.out.println(String.format("Pubishing successful conversion of %s from thread %s", result.getFileName(), Thread.currentThread().getName()));
+			logger.info("Pubishing successful conversion of {} from thread {}", result.getFileName(), Thread.currentThread().getName());
 		} else {
-			System.out.println(String.format("Pubishing successful conversion of %s from thread %s", result.getFileName(), Thread.currentThread().getName()));
+			logger.info("Pubishing unsuccessful conversion of {} from thread {}", result.getFileName(), Thread.currentThread().getName());
 		}
 	}
 }

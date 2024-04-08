@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,8 @@ public class ImageConverterController {
 	public static final String BASE_PATH = "/api/v1/images/conversions/";
 
 	private ImageConverterService imageConverterService;
+	
+	private Logger logger = LoggerFactory.getLogger(ImageConverterController.class);
 
 	@Autowired
 	public ImageConverterController(ImageConverterService imageConverterService) {
@@ -55,8 +59,6 @@ public class ImageConverterController {
 	 * requested format and returns a path to where the converted image can be
 	 * retrieved.
 	 * 
-	 * TODO: - Request Validation, declare errors, implement file size check.
-	 * 
 	 * @param request The request object.
 	 */
 	@PostMapping("/convert")
@@ -74,14 +76,12 @@ public class ImageConverterController {
 	 * Accepts a request containing a url to an image, converts that image to the
 	 * requested format and publishes the result to an event streaming service.
 	 * 
-	 * TODO: - Request Validation, declare errors, implement file size check.
-	 * 
 	 * @param request The request object.
 	 */
 	@PostMapping("/convert/async")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public ImageConversionResponse convertASync(@RequestBody @Validated ImageConversionRequest request) {
-		System.out.println(String.format("convertASync %s", Thread.currentThread().getName()));
+		logger.info("convertASync {}", Thread.currentThread().getName());		
 
 		String fileName = imageConverterService.buildFilename(request.getSourceImage(), request.getToFormat());
 

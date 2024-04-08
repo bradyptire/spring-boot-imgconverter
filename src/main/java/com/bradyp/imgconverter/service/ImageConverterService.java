@@ -31,7 +31,7 @@ public class ImageConverterService {
 
 	private List<String> supportedFormatsList = Arrays.asList(supportedFormats);
 
-	private HashMap<String, byte[]> cache = new HashMap<String, byte[]>();
+	private HashMap<String, byte[]> cache = new HashMap<>();
 
 	private EventPublisherService eventPublisherService;
 
@@ -50,8 +50,7 @@ public class ImageConverterService {
 	}
 
 	/**
-	 * Convert an image to a specified format. Converted images are stored in the
-	 * cache.
+	 * Convert an image to a specified format.
 	 * 
 	 * @param sourceImageUrl URL of the image to convert
 	 * @param toFormat       Format to convert to
@@ -93,27 +92,41 @@ public class ImageConverterService {
 		return fileName;
 	}
 
+	/**
+	 * 
+	 * Convert an image to a specified format asynchronously. The result is
+	 * published to the {@link EventPublisherService}.
+	 * 
+	 * @param sourceImageUrl URL of the image to convert
+	 * @param toFormat       Format to convert to
+	 * @return The name of the converted file, which serves as the key for later
+	 *         retrievel.
+	 */
 	@Async
 	public void convertAsync(URL sourceImageUrl, String toFormat) throws UnsupportedFormatException {
-		ImageConversionResult result = new ImageConversionResult();
+		ImageConversionResult result = null;
 
+		String fileName = buildFilename(sourceImageUrl, toFormat);
 		try {
-			String fileName = convert(sourceImageUrl, toFormat);
-
-			result.setSuccess(true);
-			result.setContent(get(fileName));
-			result.setFileName(fileName);
+			convert(sourceImageUrl, toFormat);
+			result = new ImageConversionResult(fileName, get(fileName));
 		} catch (Exception e) {
-			result.setSuccess(false);
-			result.setFileName(buildFilename(sourceImageUrl, toFormat));
-			result.setError(e.getMessage());
+			result = new ImageConversionResult(fileName, e.getMessage());
 		} finally {
 			eventPublisherService.publish(result);
 		}
 	}
 
+	/**
+	 * Retrieve image content.
+	 * 
+	 * @param fileName The image filename to retrieve. 
+	 * @return The image content or null if not found.
+	 */
 	public byte[] get(String fileName) {
-		return cache.get(fileName);
+		byte[] bytes = cache.get(fileName);
+
+		return bytes == null ? null : Arrays.copyOf(cache.get(fileName), bytes.length);
 	}
 
 	public String buildFilename(URL sourceImageUrl, String toFormat) {

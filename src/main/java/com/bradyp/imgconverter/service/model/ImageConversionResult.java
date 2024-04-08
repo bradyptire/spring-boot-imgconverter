@@ -1,47 +1,71 @@
 package com.bradyp.imgconverter.service.model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Class represents the result of an asynchronous image conversion.
  */
 public class ImageConversionResult {
-	private boolean success;
+	private final boolean success;
 
-	private String error;
+	private final String error;
 
-	private String fileName;
+	private final String fileName;
 
-	private byte[] content;
+	private final byte[] content;
+
+	public ImageConversionResult(String fileName, byte[] content) {
+		super();
+		this.success = true;
+		this.fileName = fileName;
+		this.content = content;
+		this.error = null;
+	}
+
+	public ImageConversionResult(String fileName, String error) {
+		super();
+		this.success = false;
+		this.error = error;
+		this.fileName = fileName;
+		this.content = null;
+	}
 
 	public boolean isSuccess() {
 		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
 	}
 
 	public String getError() {
 		return error;
 	}
 
-	public void setError(String error) {
-		this.error = error;
-	}
-
 	public String getFileName() {
 		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
 	}
 
 	public byte[] getContent() {
 		return content;
 	}
 
-	public void setContent(byte[] content) {
-		this.content = content;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(content);
+		result = prime * result + Objects.hash(error, fileName, success);
+		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ImageConversionResult other = (ImageConversionResult) obj;
+		return Arrays.equals(content, other.content) && Objects.equals(error, other.error)
+				&& Objects.equals(fileName, other.fileName) && success == other.success;
+	}
 }

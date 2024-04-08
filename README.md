@@ -62,10 +62,10 @@ curl --location --request POST 'http://localhost:8080/api/v1/images/conversions/
 The following improvements could be made to bring this app closer to a production state.
 - Add support for multipart form input in addition to image URL.
 - Implement file size limt.
-- Implement a proper data store
+- Implement a proper data store / cache.
 - Implement support for asynchronous processing notification via queue, webhook etc..
 - Add support for more image formats.
 - Refactor to extract static references to javax.imageio.ImageIO so that mocks can be injected to facilitate more test scenarios.
 - Add OpenAPI/Swagger annotations to describe the API + add Swagger UI or similar.
-- Separate Unit test from integration tests so that they can be run separately in CI pipeline.
+- Separate Unit test from component tests so that they can be run separately in CI pipeline.
 - Add error messages to failed API responses.

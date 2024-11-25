@@ -1,5 +1,5 @@
 
-# Image Converter API
+# Image Converter API Tester 2
 A simple Springboot application to convert images between different formats.
 The following formats are supported:
 * jpg
